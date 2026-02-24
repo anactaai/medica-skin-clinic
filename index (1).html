@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MedicaSkin Clinic — Dr Anita Hegde | Cosmetic Physician Cremorne, Sydney</title>
+  <meta name="description" content="Dr Anita Hegde — Cosmetic Physician with 25+ years experience and 10,000+ treatments. Doctor-only clinic in Cremorne, Sydney's Lower North Shore." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Manrope:wght@200;300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+    body{background:#FDFBF7;overflow-x:hidden;-webkit-font-smoothing:antialiased;font-family:'Manrope',sans-serif}
+    ::selection{background:#C5A48A;color:#FDFBF7}
+    ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#FDFBF7}
+    ::-webkit-scrollbar-thumb{background:#E5DDD2;border-radius:3px}
+    @media(max-width:900px){.nav-desktop{display:none!important}}
+    @media(max-width:768px){.grid-resp{grid-template-columns:1fr!important}.sect-pad{padding:80px 24px!important}}
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    const c = {
+      bg:"#FDFBF7",bgDark:"#1C1915",warm:"#F5F0E8",warmDark:"#EDE5D8",
+      rose:"#C5A48A",roseDark:"#A8876D",roseLight:"#D9C2AE",
+      text:"#2C2520",textMuted:"#8A7E73",textLight:"#B5ADA3",
+      gold:"#B8A07A",accent:"#3A332C",divider:"#E5DDD2"
+    };
+
+    function useReveal(t=0.12){const r=useRef(null);const[v,setV]=useState(false);useEffect(()=>{const el=r.current;if(!el)return;const o=new IntersectionObserver(([e])=>{if(e.isIntersecting){setV(true);o.disconnect()}},{threshold:t});o.observe(el);return()=>o.disconnect()},[]);return[r,v]}
+    function Reveal({children,delay=0,y=50,style={}}){const[r,v]=useReveal();return<div ref={r} style={{opacity:v?1:0,transform:v?"translateY(0)":`translateY(${y}px)`,transition:`opacity 1s cubic-bezier(0.16,1,0.3,1) ${delay}s, transform 1s cubic-bezier(0.16,1,0.3,1) ${delay}s`,...style}}>{children}</div>}
+    function Label({children,style={}}){return<div style={{fontFamily:"'Manrope',sans-serif",fontSize:"10px",fontWeight:500,letterSpacing:"3.5px",textTransform:"uppercase",color:c.rose,...style}}>{children}</div>}
+
+    function Nav({scrolled}){
+      return(
+        <nav style={{position:"fixed",top:0,left:0,right:0,zIndex:100,padding:scrolled?"14px 48px":"24px 48px",background:scrolled?"rgba(253,251,247,0.95)":"transparent",backdropFilter:scrolled?"blur(20px)":"none",borderBottom:scrolled?`1px solid ${c.divider}`:"none",transition:"all 0.6s ease",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+          <div style={{display:"flex",alignItems:"baseline",gap:"8px"}}>
+            <span style={{fontFamily:"'Libre Baskerville',serif",fontSize:"18px",fontWeight:400,color:scrolled?c.text:c.bg,letterSpacing:"1px"}}>MedicaSkin</span>
+            <span style={{fontFamily:"'Manrope',sans-serif",fontSize:"9px",fontWeight:300,letterSpacing:"2px",color:scrolled?c.textMuted:"rgba(253,251,247,0.5)",textTransform:"uppercase"}}>Clinic</span>
+          </div>
+          <div className="nav-desktop" style={{display:"flex",gap:"28px",alignItems:"center"}}>
+            {["About","Philosophy","Treatments","Testimonials","Contact"].map(s=>(
+              <a key={s} href={`#${s.toLowerCase()}`} style={{fontFamily:"'Manrope',sans-serif",fontSize:"10px",fontWeight:400,letterSpacing:"1.5px",textTransform:"uppercase",color:scrolled?c.textMuted:"rgba(253,251,247,0.5)",textDecoration:"none",transition:"color 0.3s"}}
+                onMouseEnter={e=>e.target.style.color=scrolled?c.text:c.bg} onMouseLeave={e=>e.target.style.color=scrolled?c.textMuted:"rgba(253,251,247,0.5)"}>{s}</a>
+            ))}
+            <a href="#contact" style={{fontFamily:"'Manrope',sans-serif",fontSize:"10px",fontWeight:500,letterSpacing:"2px",textTransform:"uppercase",color:scrolled?c.bg:c.bgDark,textDecoration:"none",padding:"10px 24px",background:scrolled?c.rose:c.bg,borderRadius:"2px",transition:"all 0.3s"}}
+              onMouseEnter={e=>{e.target.style.background=scrolled?c.roseDark:c.warm}} onMouseLeave={e=>{e.target.style.background=scrolled?c.rose:c.bg}}>Book</a>
+          </div>
+        </nav>
+      );
+    }
+
+    function Hero(){
+      return(
+        <section id="home" style={{position:"relative",minHeight:"100vh",background:"linear-gradient(170deg,#3A332C 0%,#2C2520 40%,#1C1915 100%)",display:"flex",alignItems:"center",overflow:"hidden"}}>
+          <div style={{position:"absolute",inset:0,opacity:0.04,backgroundImage:"radial-gradient(circle at 1px 1px,rgba(253,251,247,0.4) 0.5px,transparent 0)",backgroundSize:"28px 28px"}}/>
+          <div style={{position:"absolute",top:"15%",right:"20%",width:"400px",height:"400px",borderRadius:"50%",background:"radial-gradient(circle,rgba(197,164,138,0.08) 0%,transparent 70%)",filter:"blur(80px)"}}/>
+          <div className="grid-resp" style={{maxWidth:"1100px",margin:"0 auto",padding:"140px 48px 100px",display:"grid",gridTemplateColumns:"1.1fr 0.9fr",gap:"80px",alignItems:"center",position:"relative",zIndex:2}}>
+            <div>
+              <Reveal delay={0.2} y={30}><Label style={{color:c.roseLight,marginBottom:"28px",letterSpacing:"4px"}}>Est. 1999 · Cremorne, Sydney</Label></Reveal>
+              <Reveal delay={0.4}>
+                <h1 style={{fontFamily:"'Libre Baskerville',serif",fontSize:"clamp(40px,6vw,68px)",fontWeight:400,lineHeight:1.1,color:c.bg,margin:"0 0 28px"}}>25 years of<br/><em style={{fontWeight:400}}>artistry.</em></h1>
+              </Reveal>
+              <Reveal delay={0.6}>
+                <p style={{fontFamily:"'Manrope',sans-serif",fontSize:"15px",fontWeight:300,lineHeight:1.9,color:"rgba(253,251,247,0.45)",maxWidth:"420px",margin:"0 0 36px"}}>
+                  Dr Anita Hegde has personally performed over 10,000 cosmetic treatments. A doctor-only clinic on Sydney's Lower North Shore, dedicated to subtle, expert results.
+                </p>
+                <div style={{display:"flex",gap:"16px",flexWrap:"wrap"}}>
+                  <a href="#contact" style={{fontFamily:"'Manrope',sans-serif",fontSize:"11px",fontWeight:500,letterSpacing:"2.5px",textTransform:"uppercase",color:c.bgDark,textDecoration:"none",padding:"14px 36px",background:c.rose,transition:"all 0.3s"}}
+                    onMouseEnter={e=>e.target.style.background=c.roseLight} onMouseLeave={e=>e.target.style.background=c.rose}>Book consultation</a>
+                  <a href="#about" style={{fontFamily:"'Manrope',sans-serif",fontSize:"11px",fontWeight:300,letterSpacing:"2.5px",textTransform:"uppercase",color:"rgba(253,251,247,0.4)",textDecoration:"none",padding:"14px 36px",border:"1px solid rgba(253,251,247,0.15)",transition:"all 0.3s"}}
+                    onMouseEnter={e=>{e.target.style.borderColor="rgba(253,251,247,0.4)";e.target.style.color=c.bg}} onMouseLeave={e=>{e.target.style.borderColor="rgba(253,251,247,0.15)";e.target.style.color="rgba(253,251,247,0.4)"}}>Meet Dr Hegde</a>
+                </div>
+              </Reveal>
+            </div>
+            <Reveal delay={0.5}>
+              <div style={{position:"relative"}}>
+                <div style={{width:"100%",aspectRatio:"3/4",background:"linear-gradient(180deg,rgba(197,164,138,0.12) 0%,rgba(197,164,138,0.04) 100%)",border:"1px solid rgba(197,164,138,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                  <div style={{textAlign:"center"}}>
+                    <div style={{width:"56px",height:"56px",borderRadius:"50%",border:"1px solid rgba(197,164,138,0.25)",margin:"0 auto 14px",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                      <span style={{fontFamily:"'Libre Baskerville',serif",fontSize:"20px",fontStyle:"italic",color:c.roseLight}}>A</span>
+                    </div>
+                    <span style={{fontFamily:"'Manrope',sans-serif",fontSize:"9px",letterSpacing:"2px",color:"rgba(197,164,138,0.5)",textTransform:"uppercase"}}>Dr Anita Hegde Portrait</span>
+                  </div>
+                </div>
+                <div style={{position:"absolute",bottom:"-16px",left:"-16px",background:c.rose,padding:"16px 24px"}}>
+                  <span style={{fontFamily:"'Libre Baskerville',serif",fontSize:"24px",fontWeight:400,color:c.bgDark}}>10,000+</span>
+                  <span style={{fontFamily:"'Manrope',sans-serif",fontSize:"9px",fontWeight:400,letterSpacing:"2px",textTransform:"uppercase",color:"rgba(28,25,21,0.6)",display:"block",marginTop:"2px"}}>Treatments performed</span>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      );
+    }
+
+    function About(){
+      return(
+        <section id="about" className="sect-pad" style={{padding:"120px 48px",background:c.bg}}>
+          <div style={{maxWidth:"900px",margin:"0 auto",textAlign:"center"}}>
+            <Reveal>
+              <Label style={{marginBottom:"24px"}}>Your doctor</Label>
+              <h2 style={{fontFamily:"'Libre Baskerville',serif",fontSize:"clamp(28px,3.5vw,42px)",fontWeight:400,lineHeight:1.35,color:c.text,margin:"0 0 32px"}}>
+                "Unlike many practices, I consult and treat<br/><em>every patient personally.</em>"
+              </h2>
+              <div style={{width:"48px",height:"1px",background:c.rose,margin:"0 auto 32px"}}/>
+              <p style={{fontFamily:"'Manrope',sans-serif",fontSize:"15px",fontWeight:300,lineHeight:2,color:c.textMuted,maxWidth:"640px",margin:"0 auto 20px"}}>
+                Dr Anita Hegde is a Cosmetic Physician with more than 25 years of experience. She developed her passion for aesthetic medicine while working alongside leading dermatologists in laser treatments and skin rejuvenation — and has never looked back.
+              </p>
+              <p style={{fontFamily:"'Manrope',sans-serif",fontSize:"15px",fontWeight:300,lineHeight:2,color:c.textMuted,maxWidth:"640px",margin:"0 auto 32px"}}>
+                Her boutique clinic in Cremorne is intentionally small. No nurse injectors. No revolving door of practitioners. Every consultation, every treatment, every follow-up — personally performed by Dr Hegde. It's a model built on trust, expertise, and genuine care.
+              </p>
+            </Reveal>
+            <Reveal delay={0.15}>
+              <div style={{display:"flex",justifyContent:"center",gap:"60px",flexWrap:"wrap"}}>
+                {[{n:"25+",l:"Years experience"},{n:"10,000+",l:"Treatments"},{n:"1",l:"Doctor. Always."}].map((s,i)=>(
+                  <div key={i}>
+                    <div style={{fontFamily:"'Libre Baskerville',serif",fontSize:"32px",fontWeight:400,color:c.text}}>{s.n}</div>
+                    <div style={{fontFamily:"'Manrope',sans-serif",fontSize:"10px",fontWeight:400,letterSpacing:"2px",textTransform:"uppercase",color:c.rose,marginTop:"6px"}}>{s.l}</div>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      );
+    }
+
+    function Philosophy(){
+      return(
+        <section id="philosophy" className="sect-pad" style={{padding:"100px 48px",background:c.warm}}>
+          <div className="grid-resp" style={{maxWidth:"1000px",margin:"0 auto",display:"grid",gridTemplateColumns:"1fr 1fr",gap:"80px",alignItems:"center"}}>
+            <Reveal>
+              <div style={{width:"100%",aspectRatio:"4/5",background:`linear-gradient(135deg,${c.warmDark} 0%,${c.divider} 100%)`,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                <span style={{fontFamily:"'Libre Baskerville',serif",fontSize:"12px",fontStyle:"italic",color:c.textMuted}}>Clinic interior</span>
+              </div>
+            </Reveal>
+            <Reveal delay={0.15}>
+              <Label style={{marginBottom:"20px"}}>Philosophy</Label>
+              <h2 style={{fontFamily:"'Libre Baskerville',serif",fontSize:"clamp(26px,3vw,36px)",fontWeight:400,lineHeight:1.35,color:c.text,margin:"0 0 24px"}}>
+                A relaxed, better-looking<br/>version of <em>you.</em>
+              </h2>
+              <p style={{fontFamily:"'Manrope',sans-serif",fontSize:"14px",fontWeight:300,lineHeight:2,color:c.textMuted,margin:"0 0 24px"}}>
+                Dr Hegde believes in simple, non-surgical techniques that improve your appearance naturally. No dramatic changes — just a subtle shift that makes you look refreshed, rested, and confident.
+              </p>
+              <p style={{fontFamily:"'Manrope',sans-serif",fontSize:"14px",fontWeight:300,lineHeight:2,color:c.textMuted,margin:"0 0 28px"}}>
+                It's telling that the vast majority of her patients have been with her for many years. She understands your face, your skin, and your goals — because she's been by your side through every season of change.
+              </p>
+              <div style={{width:"40px",height:"1px",background:`linear-gradient(90deg,${c.rose},transparent)`}}/>
+            </Reveal>
+          </div>
+        </section>
+      );
+    }
+
+    const treatments=[
+      {name:"Anti-Wrinkle Treatments",desc:"Precise muscle relaxation to soften expression lines while maintaining natural movement."},
+      {name:"Dermal Fillers",desc:"Restore volume, sculpt contours, and refresh your appearance with expert filler placement."},
+      {name:"Lip Augmentation",desc:"Subtle enhancement that complements your natural lip shape and facial proportions."},
+      {name:"Skin Peels",desc:"Medical-grade peels that resurface and rejuvenate for a clearer, brighter complexion."},
+      {name:"SkinPen Microneedling",desc:"Collagen induction therapy for acne scars, melasma, and overall skin texture improvement."},
+      {name:"Sclerotherapy",desc:"Safe, effective treatment for spider veins and small varicose veins."},
+    ];
+
+    function Treatments(){
+      const[hov,setHov]=useState(null);
+      return(
+        <section id="treatments" className="sect-pad" style={{padding:"120px 48px",background:c.bg}}>
+          <div style={{maxWidth:"900px",margin:"0 auto"}}>
+            <Reveal>
+              <div style={{textAlign:"center",marginBottom:"64px"}}>
+                <Label style={{marginBottom:"20px"}}>Treatments</Label>
+                <h2 style={{fontFamily:"'Libre Baskerville',serif",fontSize:"clamp(28px,3.5vw,40px)",fontWeight:400,lineHeight:1.3,color:c.text,margin:0}}>
+                  Every treatment, personally<br/>performed by <em>Dr Hegde.</em>
+                </h2>
+              </div>
+            </Reveal>
+            <div>
+              {treatments.map((t,i)=>(
+                <Reveal key={i} delay={i*0.06}>
+                  <div onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} className="grid-resp"
+                    style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"40px",alignItems:"center",padding:"28px 0",borderBottom:`1px solid ${hov===i?c.rose:c.divider}`,cursor:"pointer",transition:"all 0.4s"}}>
+                    <h3 style={{fontFamily:"'Libre Baskerville',serif",fontSize:"20px",fontWeight:400,color:c.text,margin:0,transition:"transform 0.4s",transform:hov===i?"translateX(8px)":"none"}}>{t.name}</h3>
+                    <p style={{fontFamily:"'Manrope',sans-serif",fontSize:"13px",fontWeight:300,lineHeight:1.7,color:c.textMuted,margin:0}}>{t.desc}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    function Testimonials(){
+      const quotes=[
+        {text:"Dr Hegde has been treating me for over fifteen years. She understands my face better than anyone. I always leave looking like myself — just better.",name:"Jennifer W.",years:"Patient since 2010"},
+        {text:"I was nervous about my first injectable treatment. Dr Hegde was so gentle and patient, explaining everything as she went. The result was so natural my husband didn't even notice — he just said I looked really well.",name:"Sarah L.",years:"Patient since 2019"},
+        {text:"After trying several clinics where I saw a different person every time, finding Dr Hegde was a relief. One doctor, every visit. She knows my history, my skin, my preferences. That consistency makes all the difference.",name:"Michelle T.",years:"Patient since 2016"},
+      ];
+      return(
+        <section id="testimonials" className="sect-pad" style={{padding:"120px 48px",background:c.bgDark}}>
+          <div style={{maxWidth:"800px",margin:"0 auto",textAlign:"center"}}>
+            <Reveal>
+              <Label style={{color:c.roseLight,marginBottom:"20px"}}>Patient stories</Label>
+              <h2 style={{fontFamily:"'Libre Baskerville',serif",fontSize:"clamp(28px,3.5vw,38px)",fontWeight:400,color:c.bg,margin:"0 0 60px"}}>
+                Trusted by patients for <em>decades.</em>
+              </h2>
+            </Reveal>
+            {quotes.map((q,i)=>(
+              <Reveal key={i} delay={i*0.12}>
+                <div style={{padding:"36px 0",borderTop:"1px solid rgba(197,164,138,0.15)"}}>
+                  <p style={{fontFamily:"'Libre Baskerville',serif",fontSize:"18px",fontWeight:400,fontStyle:"italic",lineHeight:1.7,color:"rgba(253,251,247,0.7)",margin:"0 0 20px"}}>"{q.text}"</p>
+                  <span style={{fontFamily:"'Manrope',sans-serif",fontSize:"12px",fontWeight:500,color:c.bg}}>{q.name}</span>
+                  <span style={{fontFamily:"'Manrope',sans-serif",fontSize:"12px",fontWeight:300,color:c.roseLight}}> — {q.years}</span>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </section>
+      );
+    }
+
+    function Contact(){
+      return(
+        <section id="contact" className="sect-pad" style={{padding:"120px 48px",background:c.warm}}>
+          <div className="grid-resp" style={{maxWidth:"900px",margin:"0 auto",display:"grid",gridTemplateColumns:"1fr 1fr",gap:"80px",alignItems:"start"}}>
+            <Reveal>
+              <Label style={{marginBottom:"20px"}}>Visit</Label>
+              <h2 style={{fontFamily:"'Libre Baskerville',serif",fontSize:"clamp(28px,3vw,38px)",fontWeight:400,lineHeight:1.3,color:c.text,margin:"0 0 28px"}}>
+                Begin with a<br/><em>conversation.</em>
+              </h2>
+              <p style={{fontFamily:"'Manrope',sans-serif",fontSize:"14px",fontWeight:300,lineHeight:1.9,color:c.textMuted,margin:"0 0 32px"}}>
+                Every patient journey starts with a personal consultation with Dr Hegde. No pressure, no upselling — just honest advice about what will work best for you.
+              </p>
+              <a href="tel:1300887717" style={{display:"inline-block",fontFamily:"'Manrope',sans-serif",fontSize:"11px",fontWeight:500,letterSpacing:"2.5px",textTransform:"uppercase",color:c.bg,textDecoration:"none",padding:"16px 40px",background:c.text,transition:"all 0.3s"}}
+                onMouseEnter={e=>{e.target.style.background=c.rose}} onMouseLeave={e=>{e.target.style.background=c.text}}>Book a consultation</a>
+            </Reveal>
+            <Reveal delay={0.15}>
+              <div style={{marginBottom:"32px"}}>
+                <div style={{fontFamily:"'Manrope',sans-serif",fontSize:"9px",fontWeight:500,letterSpacing:"2.5px",textTransform:"uppercase",color:c.rose,marginBottom:"10px"}}>Address</div>
+                <p style={{fontFamily:"'Manrope',sans-serif",fontSize:"15px",fontWeight:300,lineHeight:1.8,color:c.text,margin:0}}>Suite 3B, 350 Military Road<br/>Cremorne NSW 2090</p>
+              </div>
+              <div style={{marginBottom:"32px"}}>
+                <div style={{fontFamily:"'Manrope',sans-serif",fontSize:"9px",fontWeight:500,letterSpacing:"2.5px",textTransform:"uppercase",color:c.rose,marginBottom:"10px"}}>Telephone</div>
+                <p style={{fontFamily:"'Manrope',sans-serif",fontSize:"15px",fontWeight:300,color:c.text,margin:0}}>1300 88 77 17</p>
+              </div>
+              <div>
+                <div style={{fontFamily:"'Manrope',sans-serif",fontSize:"9px",fontWeight:500,letterSpacing:"2.5px",textTransform:"uppercase",color:c.rose,marginBottom:"10px"}}>Servicing</div>
+                <p style={{fontFamily:"'Manrope',sans-serif",fontSize:"14px",fontWeight:300,lineHeight:1.8,color:c.textMuted,margin:0}}>Cremorne · Mosman · Neutral Bay · Cammeray<br/>North Sydney · Kirribilli · Crows Nest · Chatswood</p>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      );
+    }
+
+    function Footer(){
+      return(
+        <footer style={{padding:"36px 48px",background:c.bg,borderTop:`1px solid ${c.divider}`}}>
+          <div style={{maxWidth:"900px",margin:"0 auto",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:"12px"}}>
+            <span style={{fontFamily:"'Libre Baskerville',serif",fontSize:"14px",color:c.textLight}}>MedicaSkin</span>
+            <span style={{fontFamily:"'Manrope',sans-serif",fontSize:"10px",fontWeight:300,color:c.textLight}}>© 2026 MedicaSkin Clinic. All rights reserved.</span>
+          </div>
+        </footer>
+      );
+    }
+
+    function App(){
+      const[scrolled,setScrolled]=useState(false);
+      useEffect(()=>{const h=()=>setScrolled(window.scrollY>60);window.addEventListener("scroll",h);return()=>window.removeEventListener("scroll",h)},[]);
+      return(<div><Nav scrolled={scrolled}/><Hero/><About/><Philosophy/><Treatments/><Testimonials/><Contact/><Footer/></div>);
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+  </script>
+</body>
+</html>
